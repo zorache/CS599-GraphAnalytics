@@ -28,8 +28,6 @@ frog = LeapfrogJoin(Iter,Iter_2)
 frog.atEnd
 print(frog.Iter[0].key)
 print(frog.Iter[1].key)
-frog.leapfrogNext()
+while not frog.atEnd:
+    frog.leapfrogNext()
 frog.key
-frog.atEnd
-frog.leapfrogNext()
-frog.atEnd
