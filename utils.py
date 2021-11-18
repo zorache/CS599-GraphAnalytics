@@ -156,7 +156,27 @@ class AVLTree():
         self.preOrder(root.r)
 
         
-        
+def TreeBuilder(file_name, header = True, skip = 0, txt = False):
+    Tree = AVLTree()
+    root = None
+    with open(file_name, newline='') as file:
+        if txt:
+            lines = file.readlines()
+            for line in lines:
+                if skip>0:
+                    skip -=1
+                    continue
+                edge = (line.strip('\n')).strip('\r').split("\t")
+                print(edge)
+                root = Tree.insert(root, int(edge[0]),int(edge[1]))
+        else:
+            reader = csv.reader(file, delimiter=' ')
+            if header:
+                next(reader)
+                skip =skip -1
+            for edge in reader:
+                root = Tree.insert(root, int(edge[0]),int(edge[1]))
+    return Tree, root
         
         
 class TreijoinIterator(object):
