@@ -51,10 +51,10 @@ class AVLTree():
 
     
     def insert(self,root,key,key_child=None):
-        print("inserting: key is "+ str(key))
-        print("prev max and min ")
-        print(str(self.max))
-        print(str(self.min))
+#         print("inserting: key is "+ str(key))
+#         print("prev max and min ")
+#         print(str(self.max))
+#         print(str(self.min))
         if self.max==None:
             self.max = key
         else:
@@ -65,23 +65,23 @@ class AVLTree():
         else:
             if self.min>key:
                 self.min = key
-        print("after max and min ")
-        print(str(self.max))
-        print(str(self.min))
-        if root!=None:
-            print("current")
-            print(str(root.key))
+#         print("after max and min ")
+#         print(str(self.max))
+#         print(str(self.min))
+#         if root!=None:
+#             print("current")
+#             print(str(root.key))
         if root==None: 
-            print("current is None")
+#             print("current is None")
             return treeNode(True, key, key_child=key_child)
         elif key<root.key:
-            print("go left")
+#             print("go left")
             root.l = self.insert(root.l, key, key_child=key_child)
         elif key==root.key:
-            print("found")
+#             print("found")
             root.child_root = root.subtree.insert(root.child_root, key_child)
         else:
-            print("go right")
+#             print("go right")
             root.r = self.insert(root.r, key, key_child=key_child)
             
         
@@ -168,7 +168,7 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False):
                     skip -=1
                     continue
                 edge = (line.strip('\n')).strip('\r').split("\t")
-                print(edge)
+#                 print(edge)
                 if reverse:
                     root = Tree.insert(root, int(edge[1]),int(edge[0]))
                 else:
