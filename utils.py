@@ -1,3 +1,5 @@
+import csv
+
 class treeNode(object):
     def __init__(self, leaf, key, key_child=None):
         self.leaf = True
