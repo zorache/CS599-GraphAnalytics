@@ -151,3 +151,7 @@ def Chiba_Nishizeki(adj_lst):
             current = current.next
         adj_lst.delete(v)
     return count
+
+
+Adj = Adjacency_List("data/ca-GrQc.txt")
+Count = Chiba_Nishizeki(Adj)
