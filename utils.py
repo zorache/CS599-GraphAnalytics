@@ -1,5 +1,6 @@
 import csv
 
+### Utils for LeapfrogTrieJoin ###
 class treeNode(object):
     def __init__(self, leaf, key, key_child=None):
         self.leaf = True
@@ -184,7 +185,7 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False, d
 
 
         
-   
+### Utils for Chiba-Nishizeki's triangle listing ###
 
 class Node:
     def __init__(self, data, prev=None, next=None):
