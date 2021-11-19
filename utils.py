@@ -245,11 +245,10 @@ class Doubly_Linked_List:
 
 class Adjacency_List:
     def __init__(self, file_name):
-        txt = True
         skip = 4
         self.dict = {}
         with open(file_name, newline='') as file:
-            if txt:
+            if ".txt" in file_name:
                 lines = file.readlines()
                 for line in lines:
                     if skip>0:
