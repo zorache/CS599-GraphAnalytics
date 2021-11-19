@@ -225,6 +225,51 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False):
 #     return Tree, root
         
         
+# class TreijoinIterator(object):
+#     def __init__(self,tree,root):
+#         self.tree = tree
+#         self.root = root
+#         self.current = self.tree.search(self.root, self.tree.min)
+#         self.key = self.current.key
+#         self.subtree = None
+#         self.parentroot = None
+
+#     def atEnd(self):
+#         if self.current == "Not found":
+#             return True
+#         else: 
+#             return False
+    
+#     def next(self):
+#         self.current = self.tree.getNext(self.root,self.key)
+#         if not self.atEnd():
+#             self.key = self.current.key
+
+#     def seek(self,seekKey):
+#         self.current = self.tree.seek(self.root,seekKey)
+#         if not self.atEnd():
+#             self.key = self.current.key
+    
+#     def open(self):
+#         subtree = self.current.subtree
+#         self.parentroot = self.root
+#         self.root = self.current.child_root
+#         node = subtree.search(self.current.child_root, subtree.min)
+#         self.current = node
+#         self.key = self.current.key
+#         self.subtree = subtree
+
+#     def up(self):
+# #         "closed!"
+#         node = self.subtree.parent
+#         self.current =node
+#         self.root = self.parentroot
+#         self.key = self.current.key
+   
+
+    
+
+        
 class TreijoinIterator(object):
     def __init__(self,tree,root):
         self.tree = tree
@@ -265,8 +310,12 @@ class TreijoinIterator(object):
         self.current =node
         self.root = self.parentroot
         self.key = self.current.key
-   
-
+        
+    def begin(self):
+        self.current =self.tree.search(self.root, self.tree.min)
+        self.key = self.current.key
+        
+        
 class LeapfrogJoin():
     def __init__(self,Iter_1,Iter_2):
         self.iter_1 = Iter_1
@@ -322,6 +371,7 @@ class LeapfrogTrieJoin():
             print(self.a)
             print("opening Iter_1")
             Iter_1.open()
+            Iter_2.begin()
             self.Join_B = LeapfrogJoin(Iter_1, Iter_2)
             while not self.Join_B.atEnd:
                 self.b = self.Join_B.Iter[0].key
