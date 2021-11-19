@@ -105,6 +105,9 @@ class LeapfrogTrieJoin():
             self.Join_B = LeapfrogJoin(Iter_1, Iter_2)
             while not self.Join_B.atEnd:
                 self.b = self.Join_B.Iter[0].key
+                if Triangle and self.a==self.b:
+                    self.Join_B.leapfrogNext() 
+                    continue
 #                 print("a b - b c  match")
 #                 print(self.b)
 #                 print("opening Iter_2")
@@ -114,6 +117,12 @@ class LeapfrogTrieJoin():
                 self.Join_C = LeapfrogJoin(Iter_2, Iter_3)
                 while not self.Join_C.atEnd:
                     self.c = self.Join_C.Iter[0].key 
+                    if Triangle and self.c==self.b:
+                        self.Join_C.leapfrogNext() 
+                        continue
+                    if Triangle and self.c==self.a:
+                        self.Join_C.leapfrogNext() 
+                        continue
                     print([self.a,self.b,self.c])
                     self.count +=1
                     self.Join_C.leapfrogNext()
