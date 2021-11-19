@@ -6,6 +6,7 @@ class treeNode(object):
         self.key = key
         self.l = None
         self.r = None
+        self.subtree=None
         if key_child!=None:
             self.subtree = AVLTree(parent=self)
             child_root = None
@@ -73,7 +74,7 @@ class AVLTree():
         elif key<root.key:
             root.l = self.insert(root.l, key, key_child=key_child)
         elif key==root.key:
-            if key_child:
+            if root.subtree!=None:
                 root.child_root = root.subtree.insert(root.child_root, key_child)
         else:
             root.r = self.insert(root.r, key, key_child=key_child)
