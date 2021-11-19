@@ -367,19 +367,19 @@ class LeapfrogTrieJoin():
         self.Join_A = LeapfrogJoin(Iter_1,Iter_3)     # find the first A key that matches
         while not self.Join_A.atEnd:
             self.a = self.Join_A.Iter[0].key
-            print("a b - a c  match")
-            print(self.a)
-            print("opening Iter_1")
+#             print("a b - a c  match")
+#             print(self.a)
+#             print("opening Iter_1")
             Iter_1.open()
             Iter_2.begin()
             self.Join_B = LeapfrogJoin(Iter_1, Iter_2)
             while not self.Join_B.atEnd:
                 self.b = self.Join_B.Iter[0].key
-                print("a b - b c  match")
-                print(self.b)
-                print("opening Iter_2")
+#                 print("a b - b c  match")
+#                 print(self.b)
+#                 print("opening Iter_2")
                 Iter_2.open()
-                print("opening Iter_3")
+#                 print("opening Iter_3")
                 Iter_3.open()
                 self.Join_C = LeapfrogJoin(Iter_2, Iter_3)
                 while not self.Join_C.atEnd:
@@ -387,12 +387,12 @@ class LeapfrogTrieJoin():
                     print([self.a,self.b,self.c])
                     self.count +=1
                     self.Join_C.leapfrogNext()
-                print("closing Iter_2")
+#                 print("closing Iter_2")
                 Iter_2.up()
-                print("closing Iter_3")
+#                 print("closing Iter_3")
                 Iter_3.up()
                 self.Join_B.leapfrogNext() 
-            print("closing Iter_1")
+#             print("closing Iter_1")
             Iter_1.up()
             self.Join_A.leapfrogNext()                     
 
