@@ -1,6 +1,6 @@
 from utils import *
 
-def Chiba_Nishizeki(adj_lst_name):
+def Chiba_Nishizeki(adj_lst_name,print= False):
     adj_lst = Adjacency_List(adj_lst_name)
     order = adj_lst.sort()
     marked = []
@@ -16,7 +16,8 @@ def Chiba_Nishizeki(adj_lst_name):
             while current_nei:
                 #if current_nei.marked:
                 if current_nei.data in marked:
-                    print(v,current.data,current_nei.data)
+                    if print:
+                        print(v,current.data,current_nei.data)
                     count+=1
                 current_nei = current_nei.next
             #current.marked=False
