@@ -138,16 +138,16 @@ class LeapfrogTrieJoin():
 
 
 class CountTriangles():
-    def __init__(self,edge_list):
+    def __init__(self,edge_list,directed=True):
         if "txt" in edge_list:
             txt = True
             skip =4
         else:
             txt = False
             skip =0
-        Tree_1, root_1 = TreeBuilder(edge_list,skip =skip,txt=txt)
-        Tree_2, root_2 = TreeBuilder(edge_list,skip =skip,txt=txt)
-        Tree_3, root_3 = TreeBuilder(edge_list,skip =skip,txt=txt,reverse=True)
+        Tree_1, root_1 = TreeBuilder(edge_list,skip =skip,txt=txt,directed=directed)
+        Tree_2, root_2 = TreeBuilder(edge_list,skip =skip,txt=txt,directed=directed)
+        Tree_3, root_3 = TreeBuilder(edge_list,skip =skip,txt=txt,reverse=True,directed=directed)
         self.Iter_1 = TreijoinIterator(Tree_1, root_1)
         self.Iter_2 = TreijoinIterator(Tree_2, root_2)
         self.Iter_3 = TreijoinIterator(Tree_3, root_3)
