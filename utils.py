@@ -267,151 +267,128 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False):
 #         self.key = self.current.key
    
 
-    
+class Node:
+    def __init__(self, data, prev=None, next=None):
+        self.data = data 
+        #self.marked = False
+        self.prev = prev 
+        self.next = next
 
-        
-class TreijoinIterator(object):
-    def __init__(self,tree,root):
-        self.tree = tree
-        self.root = root
-        self.current = self.tree.search(self.root, self.tree.min)
-        self.key = self.current.key
-        self.subtree = None
-        self.parentroot = None
-
-    def atEnd(self):
-        if self.current == "Not found":
-            return True
-        else: 
-            return False
-    
-    def next(self):
-        self.current = self.tree.getNext(self.root,self.key)
-        if not self.atEnd():
-            self.key = self.current.key
-
-    def seek(self,seekKey):
-        self.current = self.tree.seek(self.root,seekKey)
-        if not self.atEnd():
-            self.key = self.current.key
-    
-    def open(self):
-        subtree = self.current.subtree
-        self.parentroot = self.root
-        self.root = self.current.child_root
-        node = subtree.search(self.current.child_root, subtree.min)
-        self.current = node
-        self.key = self.current.key
-        self.subtree = subtree
-
-    def up(self):
-#         "closed!"
-        node = self.subtree.parent
-        self.current =node
-        self.root = self.parentroot
-        self.key = self.current.key
-        
-    def begin(self):
-        self.current =self.tree.search(self.root, self.tree.min)
-        self.key = self.current.key
-        
-        
-class LeapfrogJoin():
-    def __init__(self,Iter_1,Iter_2):
-        self.iter_1 = Iter_1
-        self.iter_2 = Iter_2
-        self.key = []
-        if self.iter_1.atEnd() or self.iter_2.atEnd():
-            self.atEnd = True
-            return 
+class Doubly_Linked_List:
+    def __init__(self):
+        self.head = None
+        # self.end = None       #For graph purposes, keeping track of last node
+        self.len = 0
+    def append(self, data):
+        node = Node(data)
+        if self.head ==None:
+            self.head = node
+            # self.end = node
+            return
         else:
-            self.atEnd = False
-            self.Iter = sorted([self.iter_1,self.iter_2], key=lambda iter: iter.key)    # was sorted!
-            self.k = len(self.Iter)
-            self.p = 0 
-            self.leapfrogSearch()
-    def leapfrogSearch(self):
-        max = self.Iter[(self.p -1) % self.k].key
-        while True:
-            x = self.Iter[self.p].key
-            if x==max:                                #All iter are at the same key 
-                self.key.append(x)
-                return
-            else:
-                self.Iter[self.p].seek(max)
-                if self.Iter[self.p].atEnd():
-                    self.atEnd = True 
+            if self.head.data==data:
+                return "Error: adding self loop"
+            # prev = self.end    #Previous last node
+            current = self.head
+            while current.next:
+                if current.next.data==data:
+                    # edge already in adjacency list
                     return
-                else:
-                    max = self.Iter[self.p].key
-                    self.p=(self.p + 1) % self.k
-    
-    def leapfrogNext(self):
-        self.Iter[self.p].next()
-        if self.Iter[self.p].atEnd():
-            self.atEnd=True
+                current = current.next
+            node.prev = current
+            current.next = node
+            # prev = current   
+            # prev.next = node
+            # self.end = node
+            # node.prev = prev
+        self.len +=1
+    def delete(self, data):
+        deleted = False
+        if self.head.data==data:
+            return "Error: deleting head of adjacency list"
         else:
-            self.p=(self.p+1)% self.k
-            self.leapfrogSearch()
-    
-   
+            current = self.head.next
+            while current:
+                if data ==current.data:
+                    prev = current.prev
+                    next = current.next
+                    prev.next = next
+                    if next!=None:
+                        next.prev = prev
+                    deleted=True
+                current = current.next
+            if deleted:
+                self.len -=1
+            #return "Error: node is not a neighbor, cannot be deleted"
+            #self.len -=1
+    def print(self):
+        current = self.head
+        lst = []
+        while current:
+            lst.append(current.data)
+            current = current.next
+        print(lst)
 
-class LeapfrogTrieJoin():
-    # Assuming that variables are sorted such that (a, b), (b,c), (a,c)
-    def __init__(self,Iter_1,Iter_2, Iter_3, Triangle = False):
-        self.a = None
-        self.b = None
-        self.c = None
-        self.count = 0
-        self.Triangle = Triangle
-        self.Join_A = LeapfrogJoin(Iter_1,Iter_3)     # find the first A key that matches
-        while not self.Join_A.atEnd:
-            self.a = self.Join_A.Iter[0].key
-#             print("a b - a c  match")
-#             print(self.a)
-#             print("opening Iter_1")
-            Iter_1.open()
-            Iter_2.begin()
-            self.Join_B = LeapfrogJoin(Iter_1, Iter_2)
-            while not self.Join_B.atEnd:
-                self.b = self.Join_B.Iter[0].key
-#                 print("a b - b c  match")
-#                 print(self.b)
-#                 print("opening Iter_2")
-                Iter_2.open()
-#                 print("opening Iter_3")
-                Iter_3.open()
-                self.Join_C = LeapfrogJoin(Iter_2, Iter_3)
-                while not self.Join_C.atEnd:
-                    self.c = self.Join_C.Iter[0].key 
-                    print([self.a,self.b,self.c])
-                    self.count +=1
-                    self.Join_C.leapfrogNext()
-#                 print("closing Iter_2")
-                Iter_2.up()
-#                 print("closing Iter_3")
-                Iter_3.up()
-                self.Join_B.leapfrogNext() 
-#             print("closing Iter_1")
-            Iter_1.up()
-            self.Join_A.leapfrogNext()                     
-
-
-
-class CountTriangles():
-    def __init__(self,edge_list):
-        if "txt" in edge_list:
-            txt = True
-            skip =4
+class Adjacency_List:
+    def __init__(self, file_name):
+        txt = True
+        skip = 4
+        self.dict = {}
+        with open(file_name, newline='') as file:
+            if txt:
+                lines = file.readlines()
+                for line in lines:
+                    if skip>0:
+                        skip -=1
+                        continue
+                    edge = (line.strip('\n')).strip('\r').split("\t")
+                    if edge[0] not in self.dict:
+                        lst = Doubly_Linked_List()
+                        lst.append(edge[0])
+                        self.dict[edge[0]] = lst
+                    if edge[1] not in self.dict:
+                        lst = Doubly_Linked_List()
+                        lst.append(edge[1])
+                        self.dict[edge[1]] = lst
+                    self.dict[edge[0]].append(edge[1])
+                    self.dict[edge[1]].append(edge[0])
+                    
+            else:
+                reader = csv.reader(file, delimiter=' ')
+                for edge in reader:
+                    if edge[0] not in self.dict:
+                        lst = Doubly_Linked_List()
+                        lst.append(edge[0])
+                        self.dict[edge[0]] = lst
+                    if edge[1] not in self.dict:
+                        lst = Doubly_Linked_List()
+                        lst.append(edge[1])
+                        self.dict[edge[1]] = lst
+                    self.dict[edge[0]].append(edge[1])
+                    self.dict[edge[1]].append(edge[0])
+    #Not used
+    # def delete(self, u, v):
+    #     if str(u) not in self.dict.keys() or str(v) not in self.dict.keys():
+    #         print(self.dict.keys())
+    #         return "Error: deleting an edge that does not exist"
+    #     self.dict[str(u)].delete(str(v))
+    #     self.dict[str(v)].delete(str(u))
+    def delete(self, u):
+        if u not in self.dict.keys():
+            return "Error: linked list with head "+ u+" does not exist"
         else:
-            txt = False
-            skip =0
-        Tree_1, root_1 = TreeBuilder(edge_list,skip =skip,txt=txt)
-        Tree_2, root_2 = TreeBuilder(edge_list,skip =skip,txt=txt)
-        Tree_3, root_3 = TreeBuilder(edge_list,skip =skip,txt=txt,reverse=True)
-        self.Iter_1 = TreijoinIterator(Tree_1, root_1)
-        self.Iter_2 = TreijoinIterator(Tree_2, root_2)
-        self.Iter_3 = TreijoinIterator(Tree_3, root_3)
-        #return 
-        self.Join = LeapfrogTrieJoin(self.Iter_1,self.Iter_2,self.Iter_3,Triangle = True)
-        return 
+            self.dict.pop(u)
+            for n in self.dict.keys():
+                self.dict[n].delete(u)
+
+    #Return descending sort of the keys based on length of Adj list
+    def sort(self):            
+        order={}
+        for v in self.dict.values():
+            order[v.head.data] = v.len
+        return sorted(order, key=lambda k: order[k],reverse=True)
+    def print(self):
+        for v in self.dict.values():
+            v.print()
+
+       
