@@ -71,3 +71,13 @@ Join = LeapfrogTrieJoin(Iter_R,Iter_S, Iter_T)
 # [7, 4, 0]
 # [7, 4, 1]
 # [7, 4, 2]
+
+
+### Small TrieJoin Triangle counting example ###
+Count = CountTriangles("data/test.txt",directed = True)
+Count = CountTriangles("data/test.txt",directed = True)
+
+# directed: 9    (3 unique)
+# undirected: 24 (4 unique)
+
+
