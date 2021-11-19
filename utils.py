@@ -268,7 +268,11 @@ class Adjacency_List:
                     self.dict[edge[1]].append(edge[0])
                     
             else:
-                reader = csv.reader(file, delimiter=' ')
+                if "musae_git" in file_name:
+                    delimiter = ','
+                else:
+                    delimiter=' '
+                reader = csv.reader(file, delimiter=delimiter)
                 for edge in reader:
                     if edge[0] not in self.dict:
                         lst = Doubly_Linked_List()
