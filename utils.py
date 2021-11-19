@@ -150,7 +150,7 @@ class AVLTree():
         self.preOrder(root.l)
         self.preOrder(root.r)
 
-def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False):
+def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False, directed=True):
     Tree = AVLTree()
     root = None
     with open(file_name, newline='') as file:
@@ -161,7 +161,10 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False):
                     skip -=1
                     continue
                 edge = (line.strip('\n')).strip('\r').split("\t")
-                if reverse:
+                if not directed:
+                    root = Tree.insert(root, int(edge[1]),int(edge[0]))
+                    root = Tree.insert(root, int(edge[0]),int(edge[1]))
+                elif reverse:
                     root = Tree.insert(root, int(edge[1]),int(edge[0]))
                 else:
                     root = Tree.insert(root, int(edge[0]),int(edge[1]))
