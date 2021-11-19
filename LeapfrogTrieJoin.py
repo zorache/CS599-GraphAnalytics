@@ -88,7 +88,7 @@ class LeapfrogJoin():
 
 class LeapfrogTrieJoin():
     # Assuming that variables are sorted such that (a, b), (b,c), (a,c)
-    def __init__(self,Iter_1,Iter_2, Iter_3, Triangle = False):
+    def __init__(self,Iter_1,Iter_2, Iter_3, Triangle = False,print = False):
         self.a = None
         self.b = None
         self.c = None
@@ -123,7 +123,8 @@ class LeapfrogTrieJoin():
                     if Triangle and self.c==self.a:
                         self.Join_C.leapfrogNext() 
                         continue
-                    print([self.a,self.b,self.c])
+                    if print:
+                        print([self.a,self.b,self.c])
                     self.count +=1
                     self.Join_C.leapfrogNext()
 #                 print("closing Iter_2")
@@ -138,7 +139,7 @@ class LeapfrogTrieJoin():
 
 
 class CountTriangles():
-    def __init__(self,edge_list,directed=True):
+    def __init__(self,edge_list,directed=True,print=False):
         if "txt" in edge_list:
             txt = True
             skip =4
@@ -151,8 +152,7 @@ class CountTriangles():
         self.Iter_1 = TreijoinIterator(Tree_1, root_1)
         self.Iter_2 = TreijoinIterator(Tree_2, root_2)
         self.Iter_3 = TreijoinIterator(Tree_3, root_3)
-        #return 
-        self.Join = LeapfrogTrieJoin(self.Iter_1,self.Iter_2,self.Iter_3,Triangle = True)
+        self.Join = LeapfrogTrieJoin(self.Iter_1,self.Iter_2,self.Iter_3,Triangle = True,print=print)
         return 
     def getCount(self):
         if self.directed:
