@@ -25,5 +25,5 @@ def Chiba_Nishizeki(adj_lst):
     return count
 
 
-Adj = Adjacency_List("data/ca-GrQc.txt")
-Count = Chiba_Nishizeki(Adj)
+#Adj = Adjacency_List("data/ca-GrQc.txt")
+#Count = Chiba_Nishizeki(Adj)
