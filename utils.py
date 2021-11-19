@@ -32,6 +32,19 @@ class AVLTree():
              return self.search(root.l,key)
         
     # O(logN)
+#     def seek(self,root,key):
+#         if root ==None:
+#             return "Not found"
+#         elif key > root.key:     
+#             return self.seek(root.r,key)
+#         elif key < root.key:
+#             current= root
+#             while current.l and current.l.key>=key:
+#                 current = current.l
+#             return current
+#         else:
+#             return root
+        # O(logN)
     def seek(self,root,key):
         if root ==None:
             return "Not found"
@@ -39,8 +52,15 @@ class AVLTree():
             return self.seek(root.r,key)
         elif key < root.key:
             current= root
-            while current.l and current.l.key>=key:
-                current = current.l
+            temp = current.l
+            while temp:
+                if temp.key>key:
+                    current = temp
+                    temp = temp.l
+                elif temp.key<key:
+                    temp = temp.r
+                else:
+                    return temp
             return current
         else:
             return root
