@@ -155,7 +155,7 @@ class CountTriangles():
         self.Join = LeapfrogTrieJoin(self.Iter_1,self.Iter_2,self.Iter_3,Triangle = True)
         return 
     def getCount(self):
-        if directed:
+        if self.directed:
             return self.Join.count/3
         else:
             return self.Join.count/6
