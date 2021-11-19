@@ -174,7 +174,6 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False, d
             reader = csv.reader(file, delimiter=' ')
             if header:
                 next(reader)
-                skip =skip -1
             for edge in reader:
                 root = Tree.insert(root, int(edge[0]),int(edge[1]))
     return Tree, root
@@ -277,7 +276,7 @@ class Adjacency_List:
                         self.dict[edge[1]] = lst
                     self.dict[edge[0]].append(edge[1])
                     self.dict[edge[1]].append(edge[0])
-    # Not used, here for completeness
+    
     def delete(self, u):
         if u not in self.dict.keys():
             return "Error: linked list with head "+ u+" does not exist"
