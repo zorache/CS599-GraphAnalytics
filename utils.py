@@ -30,21 +30,8 @@ class AVLTree():
             return self.search(root.r,key)
         else:
              return self.search(root.l,key)
-        
-    # O(logN)
-#     def seek(self,root,key):
-#         if root ==None:
-#             return "Not found"
-#         elif key > root.key:     
-#             return self.seek(root.r,key)
-#         elif key < root.key:
-#             current= root
-#             while current.l and current.l.key>=key:
-#                 current = current.l
-#             return current
-#         else:
-#             return root
-        # O(logN)
+   
+    # O(log N)
     def seek(self,root,key):
         if root ==None:
             return "Not found"
@@ -71,10 +58,6 @@ class AVLTree():
 
     
     def insert(self,root,key,key_child=None):
-#         print("inserting: key is "+ str(key))
-#         print("prev max and min ")
-#         print(str(self.max))
-#         print(str(self.min))
         if self.max==None:
             self.max = key
         else:
@@ -85,23 +68,13 @@ class AVLTree():
         else:
             if self.min>key:
                 self.min = key
-#         print("after max and min ")
-#         print(str(self.max))
-#         print(str(self.min))
-#         if root!=None:
-#             print("current")
-#             print(str(root.key))
         if root==None: 
-#             print("current is None")
             return treeNode(True, key, key_child=key_child)
         elif key<root.key:
-#             print("go left")
             root.l = self.insert(root.l, key, key_child=key_child)
         elif key==root.key:
-#             print("found")
             root.child_root = root.subtree.insert(root.child_root, key_child)
         else:
-#             print("go right")
             root.r = self.insert(root.r, key, key_child=key_child)
             
         
@@ -188,7 +161,6 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False):
                     skip -=1
                     continue
                 edge = (line.strip('\n')).strip('\r').split("\t")
-#                 print(edge)
                 if reverse:
                     root = Tree.insert(root, int(edge[1]),int(edge[0]))
                 else:
@@ -202,69 +174,8 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False):
                 root = Tree.insert(root, int(edge[0]),int(edge[1]))
     return Tree, root
 
-# def TreeBuilder(file_name, header = True, skip = 0, txt = False):
-#     Tree = AVLTree()
-#     root = None
-#     with open(file_name, newline='') as file:
-#         if txt:
-#             lines = file.readlines()
-#             for line in lines:
-#                 if skip>0:
-#                     skip -=1
-#                     continue
-#                 edge = (line.strip('\n')).strip('\r').split("\t")
-#                 print(edge)
-#                 root = Tree.insert(root, int(edge[0]),int(edge[1]))
-#         else:
-#             reader = csv.reader(file, delimiter=' ')
-#             if header:
-#                 next(reader)
-#                 skip =skip -1
-#             for edge in reader:
-#                 root = Tree.insert(root, int(edge[0]),int(edge[1]))
-#     return Tree, root
+
         
-        
-# class TreijoinIterator(object):
-#     def __init__(self,tree,root):
-#         self.tree = tree
-#         self.root = root
-#         self.current = self.tree.search(self.root, self.tree.min)
-#         self.key = self.current.key
-#         self.subtree = None
-#         self.parentroot = None
-
-#     def atEnd(self):
-#         if self.current == "Not found":
-#             return True
-#         else: 
-#             return False
-    
-#     def next(self):
-#         self.current = self.tree.getNext(self.root,self.key)
-#         if not self.atEnd():
-#             self.key = self.current.key
-
-#     def seek(self,seekKey):
-#         self.current = self.tree.seek(self.root,seekKey)
-#         if not self.atEnd():
-#             self.key = self.current.key
-    
-#     def open(self):
-#         subtree = self.current.subtree
-#         self.parentroot = self.root
-#         self.root = self.current.child_root
-#         node = subtree.search(self.current.child_root, subtree.min)
-#         self.current = node
-#         self.key = self.current.key
-#         self.subtree = subtree
-
-#     def up(self):
-# #         "closed!"
-#         node = self.subtree.parent
-#         self.current =node
-#         self.root = self.parentroot
-#         self.key = self.current.key
    
 
 class Node:
@@ -288,7 +199,6 @@ class Doubly_Linked_List:
         else:
             if self.head.data==data:
                 return "Error: adding self loop"
-            # prev = self.end    #Previous last node
             current = self.head
             while current.next:
                 if current.next.data==data:
@@ -297,10 +207,6 @@ class Doubly_Linked_List:
                 current = current.next
             node.prev = current
             current.next = node
-            # prev = current   
-            # prev.next = node
-            # self.end = node
-            # node.prev = prev
         self.len +=1
     def delete(self, data):
         deleted = False
@@ -366,13 +272,7 @@ class Adjacency_List:
                         self.dict[edge[1]] = lst
                     self.dict[edge[0]].append(edge[1])
                     self.dict[edge[1]].append(edge[0])
-    #Not used
-    # def delete(self, u, v):
-    #     if str(u) not in self.dict.keys() or str(v) not in self.dict.keys():
-    #         print(self.dict.keys())
-    #         return "Error: deleting an edge that does not exist"
-    #     self.dict[str(u)].delete(str(v))
-    #     self.dict[str(v)].delete(str(u))
+    # Not used, here for completeness
     def delete(self, u):
         if u not in self.dict.keys():
             return "Error: linked list with head "+ u+" does not exist"
@@ -381,7 +281,7 @@ class Adjacency_List:
             for n in self.dict.keys():
                 self.dict[n].delete(u)
 
-    #Return descending sort of the keys based on length of Adj list
+    # Return descending sort of the keys based on length of Adj list
     def sort(self):            
         order={}
         for v in self.dict.values():
