@@ -171,7 +171,11 @@ def TreeBuilder(file_name, header = True, skip = 0, txt = False,reverse=False, d
                 else:
                     root = Tree.insert(root, int(edge[0]),int(edge[1]))
         else:
-            reader = csv.reader(file, delimiter=' ')
+            if "musae_git" in file_name:
+                delimiter = ','
+            else:
+                delimiter=' '
+            reader = csv.reader(file, delimiter=delimiter)
             if header:
                 next(reader)
             for edge in reader:
