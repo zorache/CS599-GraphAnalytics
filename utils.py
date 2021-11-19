@@ -73,7 +73,8 @@ class AVLTree():
         elif key<root.key:
             root.l = self.insert(root.l, key, key_child=key_child)
         elif key==root.key:
-            root.child_root = root.subtree.insert(root.child_root, key_child)
+            if key_child:
+                root.child_root = root.subtree.insert(root.child_root, key_child)
         else:
             root.r = self.insert(root.r, key, key_child=key_child)
             
