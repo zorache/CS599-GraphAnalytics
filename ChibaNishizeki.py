@@ -1,6 +1,7 @@
 from utils import *
 
-def Chiba_Nishizeki(adj_lst):
+def Chiba_Nishizeki(adj_lst_name):
+    adj_lst = Adjacency_List(adj_lst_name)
     order = adj_lst.sort()
     marked = []
     count = 0
